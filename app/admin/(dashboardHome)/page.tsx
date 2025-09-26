@@ -1,21 +1,27 @@
+'use client'
 import React from 'react';
 import styles from './home.module.css';
 import { appIcons } from '@/app/assets/icons/icons';
+import { useRouter } from 'next/navigation';
+
+
+const reportHistory = [
+  { id: 1, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
+  { id: 2, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
+  { id: 3, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
+  { id: 4, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
+  { id: 5, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
+  { id: 6, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
+  { id: 7, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
+  { id: 8, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
+]
 
 const Home = () => {
 
-  const reportHistory = [
-    { id: 1, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 2, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 3, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 4, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 5, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 6, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 7, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 8, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-  ]
+  const router = useRouter();
 
   return (
+
     <div className={styles.page}>
       <h3>Welcome, Admin</h3>
 
@@ -43,7 +49,10 @@ const Home = () => {
 
       {/* --- REPORT HISTORY SECTION --- */}
       <div className={styles.reportHistory}>
-        <h3>Report History</h3>
+        <div className={styles.header}>
+          <h3>Report History</h3>
+          <span onClick={() => router.push('/admin/reports')}>view all</span>
+        </div>
         <table>
           <thead>
             <tr className={styles.head}>
