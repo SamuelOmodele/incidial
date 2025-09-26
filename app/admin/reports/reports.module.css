@@ -1,0 +1,42 @@
+.reportHistory {
+    padding: 30px;
+}
+
+.reportHistory h3 {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.reportHistory table {
+    width: 100%;
+    background-color: white;
+    border: 1px solid #cac9d9;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+.reportHistory table th {
+    font-weight: 600;
+    text-align: left;
+    padding: 20px 15px;
+    background-color: #efefef;
+}
+
+.reportHistory table tr {
+    border-bottom: 1px solid #cac9d9;
+    cursor: pointer;
+}
+
+.reportHistory table tr.head {
+    cursor: default;
+}
+
+.reportHistory table tr:hover {
+    background-color: #EAF3F1;
+}
+
+.reportHistory table td {
+    padding: 20px 15px;
+    font-size: 15px;
+}

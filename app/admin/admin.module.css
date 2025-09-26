@@ -1,0 +1,17 @@
+.container{
+    display: flex;
+    background-color: #F3F3F3;
+    width: 100%;
+    height: 100dvh;
+}
+.sidebarContainer{
+    width: 22%;
+}
+.childrenContainer{
+    flex: 1;
+    height: 100dvh;
+}
+.childrenContent{
+    height: calc(100dvh - 70px);
+    overflow-y: auto;
+}
