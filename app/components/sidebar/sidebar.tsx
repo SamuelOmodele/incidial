@@ -17,7 +17,7 @@ const Sidebar = () => {
       </div>
 
       <div className={styles.profileContainer}>
-        <appIcons.userIcon size={78} style={{ color: '#777' }} />
+        <appIcons.userIcon size={78} style={{ color: '#ccc' }} />
         <h3>John Doe</h3>
         <p>johndoe123@gmail.com</p>
       </div>
@@ -26,7 +26,7 @@ const Sidebar = () => {
         <li className={(pathname === '/admin' || pathname === '/admin/') ? styles.active : ''} onClick={() => router.push('/admin')}><appIcons.dashboardIcon size={22} /> Dashboard</li>
         <li className={(pathname === '/admin/reports' || pathname === '/admin/reports/') ? styles.active : ''} onClick={() => router.push('/admin/reports')}><appIcons.documentIcon size={22} /> Reports</li>
         <hr color='#cac9d9' />
-        <li className={styles.logout}><appIcons.logoutIcon size={22} /> Logout</li>
+        <li className={styles.logout} onClick={() => router.push('/')}><appIcons.logoutIcon size={22} /> Logout</li>
       </ul>
     </div>
   )
