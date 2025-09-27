@@ -96,4 +96,5 @@
 .reportHistory table td{
     padding: 20px 15px;
     font-size: 15px;
+    font-family: var(--font-nunito);
 }
