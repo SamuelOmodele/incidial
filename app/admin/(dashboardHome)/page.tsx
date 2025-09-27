@@ -1,8 +1,9 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './home.module.css';
 import { appIcons } from '@/app/assets/icons/icons';
 import { useRouter } from 'next/navigation';
+import IncidentModal from '@/app/components/incidentModal/incidentModal';
 
 
 const reportHistory = [
@@ -19,6 +20,11 @@ const reportHistory = [
 const Home = () => {
 
   const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
 
   return (
 
@@ -65,7 +71,7 @@ const Home = () => {
           </thead>
           <tbody>
             {reportHistory.map((report) => (
-              <tr key={report.id}>
+              <tr key={report.id} onClick={handleOpen}>
                 <td>{report.id}</td>
                 <td>{report.category}</td>
                 <td>{report.description}</td>
@@ -76,6 +82,9 @@ const Home = () => {
           </tbody>
         </table>
       </div>
+
+      {/* --- INCIDENT MODAL ---  */}
+      <IncidentModal open={open} handleClose={handleClose} />
     </div>
   )
 }
