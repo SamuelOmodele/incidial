@@ -2,9 +2,38 @@
     padding: 30px;
 }
 
+.reportHistory .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.header .selectContainer{
+    display: flex;
+    gap: 10px;
+}
+.selectContainer > div{
+    position: relative;
+}
+.selectContainer > div .icon{
+    position: absolute;
+    top: 50%;
+    right: 2px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+
+.header select{
+    appearance: none;
+    width: 200px;
+    padding: 7px 10px;
+    outline-color: #208971;
+}
+
 .reportHistory h3 {
     font-weight: 600;
-    margin-bottom: 15px;
 }
 
 .reportHistory table {
