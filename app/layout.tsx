@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Ovo, Poppins } from "next/font/google";
+import { Geist, Geist_Mono, Nunito, Ovo, Poppins } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,6 +17,13 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
 });
+
+const nunito = Nunito({
+  weight: ['300', '400', '500', '600', '700'],
+  variable: "--font-nunito",
+  subsets: ["latin"],
+});
+
 const ovo = Ovo({
   weight: ['400'],
   variable: "--font-ovo",
@@ -31,7 +38,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode;}>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${ovo.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${nunito.variable} ${ovo.variable}`}>
         {children}
       </body>
     </html>
