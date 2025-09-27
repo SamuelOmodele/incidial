@@ -7,6 +7,7 @@ const Signup = () => {
     return (
         <div className={styles.container}>
             <h2>Create Account!</h2>
+            <p>Fill in your information below.</p>
             <form action="">
                 <div className={styles.formGroup}>
                     <label htmlFor="firstName">First Name</label>
