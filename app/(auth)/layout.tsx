@@ -7,7 +7,7 @@ const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
             <div className={styles.leftSection}>
                 <div className={styles.content}>
                     <h3>InciDial</h3>
-                    <p>Manage all incident reports </p>
+                    <p>Manage reported incidents </p>
                 </div>
             </div>
             <div className={styles.childrenContainer}>
