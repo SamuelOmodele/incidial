@@ -5,6 +5,7 @@ import { BiLogOut } from "react-icons/bi";
 import { FiSearch } from "react-icons/fi";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import { MdOutlineToday } from "react-icons/md";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 export const appIcons = {
     userIcon: FaUserCircle,
@@ -14,4 +15,5 @@ export const appIcons = {
     searchIcon: FiSearch,
     monthIcon: MdOutlineCalendarMonth,
     todayIcon: MdOutlineToday,
+    dropdownIcon: IoMdArrowDropdown,
 }
