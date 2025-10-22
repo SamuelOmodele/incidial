@@ -1,5 +1,7 @@
 import React from 'react'
 import styles from './auth.module.css'
+import Image from 'next/image';
+import { appImages } from '../assets/images/images';
 
 const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     return (
@@ -11,6 +13,7 @@ const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
                 </div>
             </div>
             <div className={styles.childrenContainer}>
+                <Image src={appImages.logoImage} alt='logo' className={styles.logoImg} />
                 {children}
             </div>
         </div>
