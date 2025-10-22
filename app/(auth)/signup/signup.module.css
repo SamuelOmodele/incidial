@@ -75,3 +75,8 @@ p.accountText span a {
     color: #208971;
     cursor: pointer;
 }
+@media screen and (max-width: 500px) {
+    .container form {
+        width: 95%;
+    }
+}
