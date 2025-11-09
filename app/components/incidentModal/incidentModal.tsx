@@ -19,7 +19,7 @@ type incidentModalPropType = {
 
 const IncidentModal = ({ open, handleClose, selectedIncident }: incidentModalPropType) => {
     return (
-        <div>
+        <div >
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -41,7 +41,7 @@ const IncidentModal = ({ open, handleClose, selectedIncident }: incidentModalPro
                         outline: 'none'
                     }}
                 >
-                    <h2>Incident - {selectedIncident?.id}</h2>
+                    <h2>Incident Report - {selectedIncident?.id}</h2>
                     <hr />
                     <div className={styles.detailsBox}>
                         <div>

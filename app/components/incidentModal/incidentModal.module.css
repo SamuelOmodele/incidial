@@ -9,10 +9,13 @@
 }
 .modal h2{
     margin-bottom: 10px;
+    font-family: var(--font-nunito);
 }
 .detailsBox{
     margin-top: 15px;
 }
 .detailsBox p{
-    font-size: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: var(--font-nunito);
 }
