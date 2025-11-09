@@ -75,6 +75,14 @@ p.accountText span a {
     color: #208971;
     cursor: pointer;
 }
+.error{
+    font-size: 15px;
+    color: red;
+}
+.success{
+    font-size: 14px;
+    color: green;
+}
 @media screen and (max-width: 500px) {
     .container form {
         width: 95%;

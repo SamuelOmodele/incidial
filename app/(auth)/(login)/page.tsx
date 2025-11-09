@@ -1,41 +1,142 @@
-'use client'
-import React from 'react'
-import styles from './login.module.css'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+'use client';
+import React, { useState } from 'react';
+import styles from './login.module.css';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-    const router = useRouter();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        router.push('/admin');
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const { msg } = await res.json();
+        setError(msg || 'Login failed');
+        console.log('error is here');
+        return;
+      }
+
+      const data = await res.json();
+      console.log(data);
+
+      // You can store tokens or user info here if needed
+      localStorage.setItem('accessToken', data.access_token);
+
+      router.push('/admin');
+    } catch (err: any) {
+      setError(err.msg || 'Something went wrong');
+    } finally {
+      setLoading(false);
     }
+  };
 
-    return (
-        <div className={styles.container}>
-            <h2>Login</h2>
-            <p>Sign in to your account below</p>
-            <form onSubmit={handleSubmit}>
-                <div className={styles.formGroup}>
-                    <label htmlFor="email">Email</label>
-                    <input type="email" id='email' name='email' placeholder='Your email . . .' />
-                </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id='password' name='password' placeholder='Your password . . .' />
-                </div>
-                <button>Login</button>
-                <p className={styles.accountText}>
-                    Don&apos;t have an account?
-                    <span>
-                        <Link href={'/signup'}>click here</Link>
-                    </span>
-                </p>
-            </form>
+  return (
+    <div className={styles.container}>
+      <h2>Login</h2>
+      <p>Sign in to your account below</p>
+
+      <form onSubmit={handleSubmit}>
+        <div className={styles.formGroup}>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Your email . . ."
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
-    )
-}
 
-export default Login
+        <div className={styles.formGroup}>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Your password . . ."
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        {error && <p className={styles.error}>{error}</p>}
+
+        <button type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </button>
+
+        <p className={styles.accountText}>
+          Don&apos;t have an account?{' '}
+          <span>
+            <Link href="/signup">click here</Link>
+          </span>
+        </p>
+      </form>
+    </div>
+  );
+};
+
+export default Login;
+
+
+
+// 'use client'
+// import React from 'react'
+// import styles from './login.module.css'
+// import Link from 'next/link'
+// import { useRouter } from 'next/navigation'
+
+// const Login = () => {
+
+//     const router = useRouter();
+
+//     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+//         e.preventDefault();
+//         router.push('/admin');
+//     }
+
+//     return (
+//         <div className={styles.container}>
+//             <h2>Login</h2>
+//             <p>Sign in to your account below</p>
+//             <form onSubmit={handleSubmit}>
+//                 <div className={styles.formGroup}>
+//                     <label htmlFor="email">Email</label>
+//                     <input type="email" id='email' name='email' placeholder='Your email . . .' />
+//                 </div>
+//                 <div className={styles.formGroup}>
+//                     <label htmlFor="password">Password</label>
+//                     <input type="password" id='password' name='password' placeholder='Your password . . .' />
+//                 </div>
+//                 <button>Login</button>
+//                 <p className={styles.accountText}>
+//                     Don&apos;t have an account?
+//                     <span>
+//                         <Link href={'/signup'}>click here</Link>
+//                     </span>
+//                 </p>
+//             </form>
+//         </div>
+//     )
+// }
+
+// export default Login

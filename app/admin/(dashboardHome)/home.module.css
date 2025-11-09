@@ -23,18 +23,23 @@
 }
 
 .card h4 {
-    font-weight: 500;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-family: var(--font-nunito);
 }
 
 .card h2 {
     font-weight: 600;
+    margin-bottom: 20px;
+    font-family: var(--font-nunito);
 }
 
 .card p {
     color: #006951;
-    font-size: 14px;
+    font-size: 15px;
     cursor: pointer;
+    font-family: var(--font-nunito);
 }
 
 .cardIcon {

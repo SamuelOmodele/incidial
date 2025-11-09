@@ -15,3 +15,23 @@
     height: calc(100dvh - 70px);
     overflow-y: auto;
 }
+.notCompatible{
+    color: red;
+    font-size: 15px;
+    display: none;
+}
+@media screen and (max-width: 800px) {
+    .sidebarContainer, .childrenContainer{
+        display: none;
+    }
+    .container{
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background-color: white;
+    }
+    .notCompatible{
+        display: block;
+        max-width: 80%;
+    }
+}

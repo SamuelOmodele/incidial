@@ -1,80 +1,158 @@
-'use client'
-import React, { useState } from 'react'
-import styles from './reports.module.css'
-import { appIcons } from '@/app/assets/icons/icons'
-import IncidentModal from '@/app/components/incidentModal/incidentModal'
-
-const reportHistory = [
-    { id: 1, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 2, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 3, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 4, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 5, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 6, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 7, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-    { id: 8, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
-]
+'use client';
+import React, { useState, useEffect } from 'react';
+import styles from './reports.module.css';
+import { appIcons } from '@/app/assets/icons/icons';
+import IncidentModal from '@/app/components/incidentModal/incidentModal';
 
 const ReportsPage = () => {
+  const [reports, setReports] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [open, setOpen] = useState(false);
+  const [selectedReport, setSelectedReport] = useState<any>(null);
 
-    const [open, setOpen] = useState(false);
+  const handleOpen = (report: any) => {
+    setSelectedReport(report);
+    setOpen(true);
+  };
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedReport(null);
+  };
 
+  useEffect(() => {
+    const fetchReports = async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+        const token = localStorage.getItem('accessToken');
+
+        if (!token) throw new Error('No access token found');
+
+        const res = await fetch(`${baseUrl}/api/reports`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch reports: ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log(data);
+        setReports(data.report_history || []); // Adjust if your API returns differently
+      } catch (err: any) {
+        setError(err.message || 'Something went wrong while fetching reports');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReports();
+  }, []);
+
+  if (loading) {
     return (
-        <div className={styles.reportHistory} >
-            <div className={styles.header}>
-                <h3>Report History</h3>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh',
+          color: '#4B5563',
+        }}
+      >
+        Loading reports...
+      </div>
+    );
+  }
 
-                <div className={styles.selectContainer}>
-                    <div>
-                        <appIcons.dropdownIcon className={styles.icon} size={24} />
-                        <select name="category" id="category">
-                            <option value="all">All category</option>
-                            <option value="all">Theft</option>
-                        </select>
-                    </div>
-                    <div>
-                        <appIcons.dropdownIcon className={styles.icon} size={24} />
-                        <select name="severity" id="severity">
-                            <option value="all">All severity</option>
-                            <option value="all">low</option>
-                            <option value="all">moderate</option>
-                            <option value="all">high</option>
-                            <option value="all">critcal</option>
-                        </select>
-                    </div>
+  if (error) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh',
+          textAlign: 'center',
+        }}
+      >
+        <p style={{ color: '#EF4444', marginBottom: '1rem' }}>{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          style={{
+            backgroundColor: '#3B82F6',
+            color: '#FFFFFF',
+            padding: '0.5rem 1rem',
+            borderRadius: '0.375rem',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
-                </div>
-            </div>
+  return (
+    <div className={styles.reportHistory}>
+      <div className={styles.header}>
+        <h3>Report History</h3>
 
-            <table>
-                <thead>
-                    <tr className={styles.head}>
-                        <th>Id</th>
-                        <th>Category</th>
-                        <th>Description</th>
-                        <th>Severity</th>
-                        <th>Location</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {reportHistory.map((report) => (
-                        <tr key={report.id} onClick={handleOpen}>
-                            <td>{report.id}</td>
-                            <td>{report.category}</td>
-                            <td>{report.description}</td>
-                            <td>{report.severity}</td>
-                            <td>{report.location}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            <IncidentModal open={open} handleClose={handleClose} />
+        <div className={styles.selectContainer}>
+          <div>
+            <appIcons.dropdownIcon className={styles.icon} size={24} />
+            <select name="severity" id="severity">
+              <option value="all">All severity</option>
+              <option value="low">Low</option>
+              <option value="moderate">Moderate</option>
+              <option value="high">High</option>
+              <option value="critical">Critical</option>
+            </select>
+          </div>
         </div>
-    )
-}
+      </div>
 
-export default ReportsPage
+      <table>
+        <thead>
+          <tr className={styles.head}>
+            <th>Id</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Severity</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reports.length > 0 ? (
+            reports.map((report: any) => (
+              <tr key={report.id} onClick={() => handleOpen(report)}>
+                <td>{report.id}</td>
+                <td>{report.category}</td>
+                <td>{report.description}</td>
+                <td>{report.severity}</td>
+                <td>{report.location}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5} style={{ textAlign: 'center', padding: '1rem', color: '#666' }}>
+                No reports found.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      <IncidentModal open={open} handleClose={handleClose} selectedIncident={selectedReport} />
+    </div>
+  );
+};
+
+export default ReportsPage;

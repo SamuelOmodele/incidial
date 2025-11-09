@@ -16,11 +16,14 @@
 .profileContainer{
     text-align: center;
     margin-bottom: 30px;
+    
 }
 .profileContainer p{
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
     color: #444;
+        font-family: var(--font-nunito);
+
 }
 .sidebar ul {
     margin-top: 20px;
@@ -36,6 +39,8 @@
     font-weight: 500;
     font-size: 15px;
     transition: .2s;
+        font-family: var(--font-geist-sans);
+
 }
 .sidebar ul li:hover{
     color: #208971;

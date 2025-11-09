@@ -4,10 +4,11 @@ import styles from './incidentModal.module.css'
 
 type incidentModalPropType = {
     open: boolean,
-    handleClose: () => void
+    handleClose: () => void,
+    selectedIncident: any
 }
 
-const IncidentModal = ({ open, handleClose }: incidentModalPropType) => {
+const IncidentModal = ({ open, handleClose, selectedIncident }: incidentModalPropType) => {
     return (
         <div>
             <Modal
@@ -31,28 +32,28 @@ const IncidentModal = ({ open, handleClose }: incidentModalPropType) => {
                         outline: 'none'
                     }}
                 >
-                    <h2>Incident - 1</h2>
+                    <h2>Incident - {selectedIncident?.id}</h2>
                     <hr />
                     <div className={styles.detailsBox}>
                         <div>
                             <h4>Date</h4>
-                            <p>11th September</p>
+                            <p>{selectedIncident?.date}</p>
                         </div>
                         <div>
                             <h4>Severity</h4>
-                            <p>High</p>
+                            <p>{selectedIncident?.severity}</p>
                         </div>
                         <div>
                             <h4>Category</h4>
-                            <p>Theft</p>
+                            <p>{selectedIncident?.category}</p>
                         </div>
                         <div>
                             <h4>Location</h4>
-                            <p>Agbowo</p>
+                            <p>{selectedIncident?.location}</p>
                         </div>
                         <div>
                             <h4>Description</h4>
-                            <p>Theves broke into a house and stole valuables</p>
+                            <p>{selectedIncident?.description}</p>
                         </div>
                     </div>
                     <Button
