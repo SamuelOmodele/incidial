@@ -17,15 +17,24 @@ const reportHistory = [
   { id: 8, category: 'Theft', description: 'Theves broke in a house and stole valuables', severity: 'High', location: 'Agbowo' },
 ];
 
+type reportType = {
+  id: number,
+  category: string,
+  description: string,
+  severity: string,
+  location: string,
+  date?: string,
+} | null
+
 const Home = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [selectedIncident, setSelectedIncident] = useState<any>(null);
+  const [selectedIncident, setSelectedIncident] = useState<reportType>(null);
 
   // 👇 Access user context
   const user = useContext(UserContext);
 
-  const handleOpen = (incident: any) => {
+  const handleOpen = (incident: reportType) => {
     setOpen(true);
     setSelectedIncident(incident);
 
@@ -80,13 +89,13 @@ const Home = () => {
             </tr>
           </thead>
           <tbody>
-            {(user?.report_history ?? reportHistory).map((report: any) => (
-              <tr key={report.id} onClick={() => handleOpen(report)}>
-                <td>{report.id}</td>
-                <td>{report.category}</td>
-                <td>{report.description}</td>
-                <td>{report.severity}</td>
-                <td>{report.location}</td>
+            {(user?.report_history ?? reportHistory).map((report: reportType) => (
+              <tr key={report?.id} onClick={() => handleOpen(report)}>
+                <td>{report?.id}</td>
+                <td>{report?.category}</td>
+                <td>{report?.description}</td>
+                <td>{report?.severity}</td>
+                <td>{report?.location}</td>
               </tr>
             ))}
           </tbody>

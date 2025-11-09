@@ -4,14 +4,23 @@ import styles from './reports.module.css';
 import { appIcons } from '@/app/assets/icons/icons';
 import IncidentModal from '@/app/components/incidentModal/incidentModal';
 
+type reportType = {
+  id: number,
+  category: string,
+  description: string,
+  severity: string,
+  location: string,
+  date: string,
+} | null
+
 const ReportsPage = () => {
-  const [reports, setReports] = useState<any[]>([]);
+  const [reports, setReports] = useState<reportType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
-  const [selectedReport, setSelectedReport] = useState<any>(null);
+  const [selectedReport, setSelectedReport] = useState<reportType>(null);
 
-  const handleOpen = (report: any) => {
+  const handleOpen = (report: reportType) => {
     setSelectedReport(report);
     setOpen(true);
   };
@@ -44,8 +53,12 @@ const ReportsPage = () => {
         const data = await res.json();
         console.log(data);
         setReports(data.report_history || []); // Adjust if your API returns differently
-      } catch (err: any) {
-        setError(err.message || 'Something went wrong while fetching reports');
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message || 'Something went wrong while fetching reports');
+        } else {
+          setError('Something went wrong');
+        }
       } finally {
         setLoading(false);
       }
@@ -131,13 +144,13 @@ const ReportsPage = () => {
         </thead>
         <tbody>
           {reports.length > 0 ? (
-            reports.map((report: any) => (
-              <tr key={report.id} onClick={() => handleOpen(report)}>
-                <td>{report.id}</td>
-                <td>{report.category}</td>
-                <td>{report.description}</td>
-                <td>{report.severity}</td>
-                <td>{report.location}</td>
+            reports.map((report: reportType) => (
+              <tr key={report?.id} onClick={() => handleOpen(report)}>
+                <td>{report?.id}</td>
+                <td>{report?.category}</td>
+                <td>{report?.description}</td>
+                <td>{report?.severity}</td>
+                <td>{report?.location}</td>
               </tr>
             ))
           ) : (

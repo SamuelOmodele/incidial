@@ -2,9 +2,32 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+type User = {
+  admin: {
+    first_name: string;
+    last_name: string;
+    email: string;
+  };
+  report_history: {
+    id: number;
+    category: string;
+    description: string;
+    severity: string;
+    location: string;
+    date?: string;
+  }[];
+  stats: {
+    total_reports_count: number;
+    this_month_count: number;
+    today_count: number;
+  };
+  success: boolean;
+};
+
+
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -34,8 +57,12 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
                 const data = await res.json();
                 setUser(data);
                 console.log('protectedRoute', data)
-            } catch (err: any) {
-                setError(err.message || 'Something went wrong');
+            } catch (err: unknown) {
+                if (err instanceof Error) {
+                    setError(err.message || 'Something went wrong');
+                } else {
+                    setError('Something went wrong');
+                }
             } finally {
                 setLoading(false);
             }
@@ -94,6 +121,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };
 
-export const UserContext = React.createContext<any>(null);
+export const UserContext = React.createContext<User | null>(null);
 
 export default ProtectedRoute;

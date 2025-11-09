@@ -57,8 +57,12 @@ const Signup = () => {
       // alert('Account created successfully!');
       setSuccess('Account created successfully! Please proceed to login');
 
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Something went wrong');
+      } else {
+        setError('Something went wrong');
+      }
     } finally {
       setLoading(false);
     }

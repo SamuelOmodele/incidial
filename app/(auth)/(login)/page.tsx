@@ -39,8 +39,12 @@ const Login = () => {
       localStorage.setItem('accessToken', data.access_token);
 
       router.push('/admin');
-    } catch (err: any) {
-      setError(err.msg || 'Something went wrong');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Something went wrong');
+      } else {
+        setError('Something went wrong');
+      }
     } finally {
       setLoading(false);
     }

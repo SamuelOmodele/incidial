@@ -2,10 +2,19 @@ import React from 'react'
 import { Modal, Box, Button } from "@mui/material";
 import styles from './incidentModal.module.css'
 
+type reportType = {
+  id: number,
+  category: string,
+  description: string,
+  severity: string,
+  location: string,
+  date?: string,
+} | null
+
 type incidentModalPropType = {
     open: boolean,
     handleClose: () => void,
-    selectedIncident: any
+    selectedIncident: reportType
 }
 
 const IncidentModal = ({ open, handleClose, selectedIncident }: incidentModalPropType) => {
