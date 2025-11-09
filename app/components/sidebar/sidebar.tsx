@@ -5,9 +5,9 @@ import { appIcons } from '@/app/assets/icons/icons';
 import { usePathname, useRouter } from 'next/navigation';
 
 type SidebarProps = {
-  firstName: string;
-  lastName: string;
-  email: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
 };
 
 const Sidebar = ({ firstName, lastName, email }: SidebarProps) => {
@@ -28,8 +28,8 @@ const Sidebar = ({ firstName, lastName, email }: SidebarProps) => {
 
       <div className={styles.profileContainer}>
         <appIcons.userIcon size={78} style={{ color: '#ccc' }} />
-        <h3>{firstName ?? 'John'} {lastName ?? 'Doe'}</h3>
-        <p>{email ?? 'johndoe123@gmail.com'}</p>
+        <h3>{firstName} {lastName}</h3>
+        <p>{email}</p>
       </div>
 
       <ul>
