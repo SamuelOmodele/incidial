@@ -18,6 +18,7 @@ const ReportsPage = () => {
   const [reports, setReports] = useState<reportType[]>([]);
   const [filteredReports, setFilteredReports] = useState<reportType[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>(''); // ✅ search state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
@@ -33,18 +34,27 @@ const ReportsPage = () => {
     setSelectedReport(null);
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const category = e.target.value;
-    setSelectedCategory(category);
+  // ✅ Combined filtering logic
+  useEffect(() => {
+    let filtered = reports;
 
-    if (category === 'all') {
-      setFilteredReports(reports);
-    } else {
-      const filtered = reports.filter(
-        (r) => r?.category.toLowerCase() === category.toLowerCase()
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(
+        (r) => r?.category.toLowerCase() === selectedCategory.toLowerCase()
       );
-      setFilteredReports(filtered);
     }
+
+    if (searchQuery.trim()) {
+      filtered = filtered.filter((r) =>
+        r?.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilteredReports(filtered);
+  }, [reports, selectedCategory, searchQuery]);
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
   };
 
   useEffect(() => {
@@ -89,9 +99,17 @@ const ReportsPage = () => {
 
   if (loading) {
     return (
-
-      <div style={{ display: 'flex', height: '70dvh', width: '100%', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
-        <Spinner color='#208971' size='24px' />
+      <div
+        style={{
+          display: 'flex',
+          height: '70dvh',
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '15px',
+        }}
+      >
+        <Spinner color="#208971" size="24px" />
         Loading reports . . .
       </div>
     );
@@ -137,22 +155,48 @@ const ReportsPage = () => {
       <div className={styles.header}>
         <h3>Report History</h3>
 
-        <div className={styles.selectContainer}>
-          <div>
-            <appIcons.dropdownIcon className={styles.icon} size={24} />
-            <select
-              name="category"
-              id="category"
-              value={selectedCategory}
-              onChange={handleCategoryChange}
-            >
-              <option value="all">All categories</option>
-              {uniqueCategories.map((category, idx) => (
-                <option key={idx} value={category || ''}>
-                  {category}
-                </option>
-              ))}
-            </select>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            flexWrap: 'wrap',
+          }}
+        >
+          {/* ✅ Search Input */}
+          <input
+            type="text"
+            placeholder="Search by description..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{
+              padding: '8px 12px',
+              border: '1px solid #ccc',
+              borderRadius: '8px',
+              outline: 'none',
+              fontSize: '0.9rem',
+              width: '220px',
+            }}
+          />
+
+          {/* ✅ Category Filter */}
+          <div className={styles.selectContainer}>
+            <div>
+              <appIcons.dropdownIcon className={styles.icon} size={24} />
+              <select
+                name="category"
+                id="category"
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+              >
+                <option value="all">All categories</option>
+                {uniqueCategories.map((category, idx) => (
+                  <option key={idx} value={category || ''}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -180,7 +224,10 @@ const ReportsPage = () => {
             ))
           ) : (
             <tr>
-              <td colSpan={5} style={{ textAlign: 'center', padding: '1rem', color: '#666' }}>
+              <td
+                colSpan={5}
+                style={{ textAlign: 'center', padding: '1rem', color: '#666' }}
+              >
                 No reports found.
               </td>
             </tr>
@@ -188,7 +235,11 @@ const ReportsPage = () => {
         </tbody>
       </table>
 
-      <IncidentModal open={open} handleClose={handleClose} selectedIncident={selectedReport} />
+      <IncidentModal
+        open={open}
+        handleClose={handleClose}
+        selectedIncident={selectedReport}
+      />
     </div>
   );
 };

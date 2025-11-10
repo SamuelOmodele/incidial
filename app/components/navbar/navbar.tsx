@@ -1,11 +1,15 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './navbar.module.css';
 import { appIcons } from '@/app/assets/icons/icons';
+import Spinner from '../spinner/spinner';
 
 const Navbar = () => {
 
+  const [loading, setLoading] = useState(false);
+
   const handleExport = async () => {
+    setLoading(true);
     try {
       const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
       const token = localStorage.getItem('accessToken');
@@ -49,7 +53,9 @@ const Navbar = () => {
       } else {
         console.error('Error exporting:', err);
       }
-      
+
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,7 +67,11 @@ const Navbar = () => {
         <appIcons.searchIcon size={22} className={styles.icon} />
       </div>
 
-      <button onClick={handleExport}>Export</button>
+      <button onClick={handleExport}>{loading ?
+        <Spinner size='18px' />
+        :
+        'Export'}
+      </button>
     </div>
   );
 };
