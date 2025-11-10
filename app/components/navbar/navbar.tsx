@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 import styles from './navbar.module.css';
 import { appIcons } from '@/app/assets/icons/icons';
 import Spinner from '../spinner/spinner';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Navbar = () => {
 
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleExport = async () => {
     setLoading(true);
@@ -62,8 +65,9 @@ const Navbar = () => {
 
   return (
     <div className={styles.navbar}>
-      <div className={styles.inputBox}>
-        <input type="search" placeholder="Search here . . ." />
+
+      <div className={styles.inputBox} onClick={() => router.push('/admin/reports')}>
+        <input type="search" placeholder="Search here . . ." disabled={pathname === '/admin/reports'} />
         <appIcons.searchIcon size={22} className={styles.icon} />
       </div>
 
