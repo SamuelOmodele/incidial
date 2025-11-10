@@ -66,7 +66,7 @@ const Navbar = () => {
   return (
     <div className={styles.navbar}>
 
-      <div className={styles.inputBox} onClick={() => router.push('/admin/reports')}>
+      <div className={styles.inputBox} onClick={() => router.push('/admin/reports?search')}>
         <input type="search" placeholder="Search here . . ." disabled={pathname === '/admin/reports'} />
         <appIcons.searchIcon size={22} className={styles.icon} />
       </div>

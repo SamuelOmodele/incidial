@@ -4,6 +4,7 @@ import styles from './reports.module.css';
 import { appIcons } from '@/app/assets/icons/icons';
 import IncidentModal from '@/app/components/incidentModal/incidentModal';
 import Spinner from '@/app/components/spinner/spinner';
+import { useSearchParams } from 'next/navigation';
 
 type reportType = {
   id: number;
@@ -23,6 +24,17 @@ const ReportsPage = () => {
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
   const [selectedReport, setSelectedReport] = useState<reportType>(null);
+  const [autofocusSearch, setautofocusSearch] = useState(false);
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const query = searchParams.toString();
+    console.log(query);
+    if (query === 'search=') {
+      setautofocusSearch(true);
+    }
+  }, []);
 
   const handleOpen = (report: reportType) => {
     setSelectedReport(report);
@@ -167,15 +179,16 @@ const ReportsPage = () => {
           <input
             type="text"
             placeholder="Search by description..."
+            autoFocus={autofocusSearch}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             style={{
               padding: '8px 12px',
               border: '1px solid #ccc',
               borderRadius: '8px',
-              outline: 'none',
               fontSize: '0.9rem',
               width: '220px',
+              outlineColor: '#208971',
             }}
           />
 
