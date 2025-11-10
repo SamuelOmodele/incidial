@@ -1,27 +1,28 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Spinner from '../spinner/spinner';
 
 type User = {
-  admin: {
-    first_name: string;
-    last_name: string;
-    email: string;
-  };
-  report_history: {
-    id: number;
-    category: string;
-    description: string;
-    severity: string;
-    location: string;
-    date?: string;
-  }[];
-  stats: {
-    total_reports_count: number;
-    this_month_count: number;
-    today_count: number;
-  };
-  success: boolean;
+    admin: {
+        first_name: string;
+        last_name: string;
+        email: string;
+    };
+    report_history: {
+        id: number;
+        category: string;
+        description: string;
+        severity: string;
+        location: string;
+        date?: string;
+    }[];
+    stats: {
+        total_reports_count: number;
+        this_month_count: number;
+        today_count: number;
+    };
+    success: boolean;
 };
 
 
@@ -73,15 +74,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
     if (loading) {
         return (
-            <div
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '100vh',
-                    color: '#208971', // tailwind: text-gray-600
-                }}
-            >
+            <div style={{ width: '100%', height: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
+                <Spinner color='#208971' size='25px' />
                 Loading . . .
             </div>
         );

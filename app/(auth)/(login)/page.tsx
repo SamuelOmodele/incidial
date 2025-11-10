@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styles from './login.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Spinner from '@/app/components/spinner/spinner';
 
 const Login = () => {
   const router = useRouter();
@@ -85,7 +86,11 @@ const Login = () => {
         {error && <p className={styles.error}>{error}</p>}
 
         <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ?
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
+              <Spinner /> Logging in...
+            </div>
+            : 'Login'}
         </button>
 
         <p className={styles.accountText}>

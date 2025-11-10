@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './signup.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Spinner from '@/app/components/spinner/spinner';
 
 const Signup = () => {
   const router = useRouter();
@@ -55,7 +56,7 @@ const Signup = () => {
       // localStorage.setItem('token', data.token);
 
       // alert('Account created successfully!');
-      setSuccess('Account created successfully! Please proceed to login');
+      setSuccess('Account created successfully! Redirecting to login . . .');
 
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -130,7 +131,11 @@ const Signup = () => {
         {success && <p className={styles.success}>{success}</p>}
 
         <button type="submit" disabled={loading}>
-          {loading ? 'Creating Account . . .' : 'Create Account'}
+          {loading ?
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
+              <Spinner /> Logging in...
+            </div>
+            : 'Create Account'}
         </button>
 
         <p className={styles.accountText}>
@@ -146,45 +151,3 @@ const Signup = () => {
 
 export default Signup;
 
-
-
-// import React from 'react'
-// import styles from './signup.module.css'
-// import Link from 'next/link';
-
-// const Signup = () => {
-
-//     return (
-//         <div className={styles.container}>
-//             <h2>Create Account!</h2>
-//             <p>Fill in your information below.</p>
-//             <form action="">
-//                 <div className={styles.formGroup}>
-//                     <label htmlFor="firstName">First Name</label>
-//                     <input type="text" id='firstName' name='firstName' placeholder='Your first name . . .' />
-//                 </div>
-//                 <div className={styles.formGroup}>
-//                     <label htmlFor="lastName">Last Name</label>
-//                     <input type="text" id='lastName' name='lastName' placeholder='Your last name . . .' />
-//                 </div>
-//                 <div className={styles.formGroup}>
-//                     <label htmlFor="email">Email</label>
-//                     <input type="email" id='email' name='email' placeholder='Your email . . .' />
-//                 </div>
-//                 <div className={styles.formGroup}>
-//                     <label htmlFor="password">Password</label>
-//                     <input type="password" id='password' name='password' placeholder='Your password . . .' />
-//                 </div>
-//                 <button>Create Account</button>
-//                 <p className={styles.accountText}>
-//                     Already have an account?
-//                     <span>
-//                         <Link href={'/'}>click here</Link>
-//                     </span>
-//                 </p>
-//             </form>
-//         </div>
-//     )
-// }
-
-// export default Signup;

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './reports.module.css';
 import { appIcons } from '@/app/assets/icons/icons';
 import IncidentModal from '@/app/components/incidentModal/incidentModal';
+import Spinner from '@/app/components/spinner/spinner';
 
 type reportType = {
   id: number;
@@ -88,16 +89,10 @@ const ReportsPage = () => {
 
   if (loading) {
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh',
-          color: '#4B5563',
-        }}
-      >
-        Loading reports...
+
+      <div style={{ display: 'flex', height: '70dvh', width: '100%', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
+        <Spinner color='#208971' size='24px' />
+        Loading reports . . .
       </div>
     );
   }
