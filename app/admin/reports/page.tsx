@@ -5,16 +5,18 @@ import { appIcons } from '@/app/assets/icons/icons';
 import IncidentModal from '@/app/components/incidentModal/incidentModal';
 
 type reportType = {
-  id: number,
-  category: string,
-  description: string,
-  severity: string,
-  location: string,
-  date: string,
-} | null
+  id: number;
+  category: string;
+  description: string;
+  severity: string;
+  location: string;
+  date: string;
+} | null;
 
 const ReportsPage = () => {
   const [reports, setReports] = useState<reportType[]>([]);
+  const [filteredReports, setFilteredReports] = useState<reportType[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
@@ -28,6 +30,20 @@ const ReportsPage = () => {
   const handleClose = () => {
     setOpen(false);
     setSelectedReport(null);
+  };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const category = e.target.value;
+    setSelectedCategory(category);
+
+    if (category === 'all') {
+      setFilteredReports(reports);
+    } else {
+      const filtered = reports.filter(
+        (r) => r?.category.toLowerCase() === category.toLowerCase()
+      );
+      setFilteredReports(filtered);
+    }
   };
 
   useEffect(() => {
@@ -51,8 +67,11 @@ const ReportsPage = () => {
         }
 
         const data = await res.json();
-        console.log(data);
-        setReports(data.report_history || []); // Adjust if your API returns differently
+        console.log('Fetched reports:', data);
+
+        const fetchedReports = data.report_history || [];
+        setReports(fetchedReports);
+        setFilteredReports(fetchedReports);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message || 'Something went wrong while fetching reports');
@@ -113,6 +132,11 @@ const ReportsPage = () => {
     );
   }
 
+  // ✅ Extract unique categories for dropdown
+  const uniqueCategories = Array.from(
+    new Set(reports.map((r) => r?.category))
+  ).filter(Boolean);
+
   return (
     <div className={styles.reportHistory}>
       <div className={styles.header}>
@@ -121,12 +145,18 @@ const ReportsPage = () => {
         <div className={styles.selectContainer}>
           <div>
             <appIcons.dropdownIcon className={styles.icon} size={24} />
-            <select name="severity" id="severity">
-              <option value="all">All severity</option>
-              <option value="low">Low</option>
-              <option value="moderate">Moderate</option>
-              <option value="high">High</option>
-              <option value="critical">Critical</option>
+            <select
+              name="category"
+              id="category"
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+            >
+              <option value="all">All categories</option>
+              {uniqueCategories.map((category, idx) => (
+                <option key={idx} value={category || ''}>
+                  {category}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -143,8 +173,8 @@ const ReportsPage = () => {
           </tr>
         </thead>
         <tbody>
-          {reports.length > 0 ? (
-            reports.map((report: reportType) => (
+          {filteredReports.length > 0 ? (
+            filteredReports.map((report) => (
               <tr key={report?.id} onClick={() => handleOpen(report)}>
                 <td>{report?.id}</td>
                 <td>{report?.category}</td>
